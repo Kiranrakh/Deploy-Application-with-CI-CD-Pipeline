@@ -1,9 +1,7 @@
 # Deploy-Application-with-CI-CD-Pipeline
-Deploy Application with CI/CD Pipeline
 
-
-______________________________________________
-Deploy-Node_JS-Application-with-CI-CD-Pipeline
+_______________________________________________________________
+**Deploy Application with CI/CD Pipeline**
 
 
 _______________________________________________________________
