@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID = 'XXXXXXXXXXXXXXXXXXXX'
+        AWS_SECRET_ACCESS_KEY = 'XXXXXXXXXXXXXXXXXXXX'
+    }
+    stages {
+        stage('git') {
+            steps {
+                echo 'git clone'
+                git branch:'main',
+                url:'https://github.com/Kiranrakh/jenkins-python-project.git'
+            }
+        }
+        stage('docker build') {
+            steps {
+                echo 'image build'
+                sh 'docker build -t fusion:v1 -f Dockerfile.txt .'
+            }
+        }
+        stage('aws ecr repo') {
+             steps {
+                 sh 'aws ecr create-repository --repository-name pythonrepo '
+             }
+         }
+        stage('push image') {
+            steps {
+                sh '''aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 767398040373.dkr.ecr.ap-south-1.amazonaws.com
+                docker tag fusion:v1 767398040373.dkr.ecr.ap-south-1.amazonaws.com/pythonrepo:v1
+                docker push 767398040373.dkr.ecr.ap-south-1.amazonaws.com/pythonrepo:v1'''
+            }
+        }
+    }
+}
